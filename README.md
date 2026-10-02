@@ -38,9 +38,32 @@ npm test
 ### GitHub Actions
 
 - `.github/workflows/ci.yml` — build y pruebas en push/PR a `main`.
-- `.github/workflows/deploy-azure.yml` — despliegue a Azure App Service.
-  Requiere el secret `AZURE_CREDENTIALS` (credenciales del service principal)
-  y un Web App llamado `cloudops-hub-web`.
+- `.github/workflows/deploy-azure.yml` — despliegue a Azure App Service usando
+  **OIDC (federated identity)**, sin secretos de largo plazo.
+
+#### Configuración del despliegue con OIDC
+
+1. Crear el service principal con credencial federada para tu repo:
+
+   ```bash
+   az ad sp create-for-rbac --name "github-cloudops-hub" \
+     --role contributor \
+     --scopes /subscriptions/<SUBSCRIPTION_ID> \
+     --federated-identity-identifier "org/repo:ref:refs/heads/main" \
+     --query "{clientId: clientId, tenantId: tenantId}"
+   ```
+
+   > Si tu versión de Azure CLI no soporta `--federated-identity-identifier`,
+   > crea el SP normal y agrega la credencial federada después:
+   > `az ad app federated-credential create --id <APP_ID> --parameters '{"issuer":"https://token.actions.githubusercontent.com","subject":"repo:ORG/REPO:ref:refs/heads/main","audiences":["api://AzureADTokenExchange"]}'`
+
+2. En GitHub → *Settings → Secrets and variables → Actions → Variables*, crear:
+   - `AZURE_CLIENT_ID`
+   - `AZURE_TENANT_ID`
+   - `AZURE_SUBSCRIPTION_ID`
+
+3. El workflow usa el **environment `production`**; crearlo en
+   *Settings → Environments* (opcionalmente con protección de aprobación).
 
 ### Azure Pipelines
 
