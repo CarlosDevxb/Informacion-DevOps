@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudOps Hub | DevOps y Computo en la Nube</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <p class="badge">DevOps · Cloud Native · CI/CD · v<%= version %></p>
+      <h1>DevOps y Computo en la Nube</h1>
+      <p class="subtitle">
+        Guías, recursos y buenas prácticas de ingeniería de software para
+        equipos que construyen y operan sistemas en la nube.
+      </p>
+      <nav class="hero-nav">
+        <a href="#practicas">Prácticas DevOps</a>
+        <a href="#cloud">Computo en la Nube</a>
+        <a href="#pipeline">Etapas del Pipeline</a>
+        <a href="/api/devops">API JSON</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <% if (typeof notFound !== 'undefined' && notFound) { %>
+      <section class="notice">
+        <strong>404:</strong> La página solicitada no existe. Volvemos al contenido principal.
+      </section>
+    <% } %>
+
+    <section id="practicas">
+      <h2>Prácticas clave de DevOps</h2>
+      <div class="grid">
+        <% devopsPractices.forEach(function(practica) { %>
+          <article class="card">
+            <h3><%= practica.titulo %></h3>
+            <p class="resumen"><%= practica.resumen %></p>
+            <p><%= practica.detalles %></p>
+            <ul class="tags">
+              <% practica.herramientas.forEach(function(h) { %>
+                <li><%= h %></li>
+              <% }); %>
+            </ul>
+          </article>
+        <% }); %>
+      </div>
+    </section>
+
+    <section id="cloud">
+      <h2>Conceptos de computo en la nube</h2>
+      <div class="grid">
+        <% cloudConcepts.forEach(function(concepto) { %>
+          <article class="card card-cloud">
+            <h3><%= concepto.titulo %></h3>
+            <p class="resumen"><%= concepto.resumen %></p>
+            <p><%= concepto.detalles %></p>
+            <ul class="tags">
+              <% concepto.categorias.forEach(function(c) { %>
+                <li><%= c %></li>
+              <% }); %>
+            </ul>
+          </article>
+        <% }); %>
+      </div>
+    </section>
+
+    <section id="pipeline">
+      <h2>Etapas de un pipeline de despliegue</h2>
+      <ol class="stages">
+        <% pipelineStages.forEach(function(etapa) { %>
+          <li>
+            <strong><%= etapa.etapa %></strong>
+            <span><%= etapa.descripcion %></span>
+          </li>
+        <% }); %>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>
+        CloudOps Hub · Node.js + Express ·
+        CI/CD con GitHub Actions y Azure Pipelines
+      </p>
+      <p class="endpoints">
+        Endpoints disponibles:
+        <a href="/api/devops">/api/devops</a> ·
+        <a href="/api/cloud">/api/cloud</a> ·
+        <a href="/api/pipeline">/api/pipeline</a> ·
+        <a href="/health">/health</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

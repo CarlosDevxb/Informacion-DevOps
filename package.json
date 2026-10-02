@@ -1,0 +1,27 @@
+{
+  "name": "cloudops-hub",
+  "version": "1.0.0",
+  "description": "Portal web sobre DevOps y computo en la nube construido con Node.js y Express",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test test/"
+  },
+  "keywords": [
+    "devops",
+    "cloud",
+    "azure",
+    "azure-devops",
+    "ci-cd"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
